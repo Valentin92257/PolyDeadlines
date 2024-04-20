@@ -10,6 +10,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.polydeadlines.Model.Panel
+import com.example.polydeadlines.Model.toTargetDateFormat
+import com.example.polydeadlines.View.DeadLineCard
 import com.example.polydeadlines.ui.theme.PolyDeadlinesTheme
 
 class MainActivity : ComponentActivity() {
@@ -25,6 +28,9 @@ class MainActivity : ComponentActivity() {
 
                 }
             }
+
+            var test = Panel("math","asdfkjalsjdfas", toTargetDateFormat("20240418T210000Z"),false)
+            DeadLineCard(test)
         }
     }
 }
