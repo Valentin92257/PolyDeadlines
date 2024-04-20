@@ -28,6 +28,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.polydeadlines.Model.Panel
+import com.example.polydeadlines.Model.toTargetDateFormat
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -78,32 +80,39 @@ fun Auth(onDismis: ()->Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar() {
+fun TopBar(onClick: () -> Unit){
+    TopAppBar(
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color.Gray,
+            titleContentColor = Color.Cyan,
+        ),
+        title = {
+            Text("Small Top App Bar")
+        },
+        actions = {
+            IconButton(onClick = onClick){
+                Icon(
+                    imageVector = Icons.Filled.AccountCircle,
+                    contentDescription = "Log in"
+                )
+            }
+        }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun Deadlines() {
     val openDialog = remember { mutableStateOf(false) }
     Scaffold(
-        topBar = {
-            TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Gray,
-                    titleContentColor = Color.Cyan,
-                ),
-                title = {
-                    Text("Small Top App Bar")
-                },
-                actions = {
-                    IconButton(onClick = {openDialog.value = true}){
-                        Icon(
-                            imageVector = Icons.Filled.AccountCircle,
-                            contentDescription = "Log in"
-                        )
-                    }
-                }
-            )
-        },
+        topBar = {TopBar({openDialog.value = true})},
     ) {
         innerPadding->
         Text("Content",Modifier.padding(innerPadding))
+        var test = Panel("math","asdfkjalsjdfas", toTargetDateFormat("20240418T210000Z"),false)
+        DeadLineCard(test)
     }
+
     if(openDialog.value)
         Auth { openDialog.value = false }
 }
