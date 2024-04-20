@@ -108,9 +108,8 @@ fun Deadlines() {
         topBar = {TopBar({openDialog.value = true})},
     ) {
         innerPadding->
-        Text("Content",Modifier.padding(innerPadding))
         var test = Panel("math","asdfkjalsjdfas", toTargetDateFormat("20240418T210000Z"),false)
-        DeadLineCard(test)
+        DeadLineCard(test,Modifier.padding(innerPadding))
     }
 
     if(openDialog.value)

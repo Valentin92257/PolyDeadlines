@@ -26,10 +26,10 @@ import com.example.polydeadlines.Model.Panel
 
 
 @Composable
-fun DeadLineCard(data: Panel) {
+fun DeadLineCard(data: Panel,modifier: Modifier) {
     val checkedState = remember { mutableStateOf(data.isComplete) }
     Card(
-        modifier = Modifier
+        modifier = modifier
             .padding(horizontal = 8.dp, vertical = 8.dp)
             .fillMaxWidth(),
         shape = RoundedCornerShape(corner = CornerSize(8.dp))
