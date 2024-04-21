@@ -1,11 +1,17 @@
 package com.example.polydeadlines.View
 
 import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -14,6 +20,8 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -26,44 +34,64 @@ import com.example.polydeadlines.Model.Panel
 
 
 @Composable
-fun DeadLineCard(data: Panel) {
-    val checkedState = remember { mutableStateOf(data.isComplete) }
-    Card(
-        modifier = Modifier
-            .padding(horizontal = 8.dp, vertical = 8.dp)
-            .fillMaxWidth(),
-        shape = RoundedCornerShape(corner = CornerSize(8.dp))
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ){
-        Column(
-            modifier = Modifier.weight(1.0F)
-        ) {
+fun DeadLineCard(modifier: Modifier) {
+    var completedTasks = remember { mutableStateListOf<Panel>() }
+    val tasks1 = mutableStateListOf { tasks }
+    LazyColumn(modifier) {
+        itemsIndexed(
+            items = tasks,
+            itemContent = { _, item ->
+                /*AnimatedVisibility(
+                    visible = !completedTasks.contains(item),
+                    //enter = expandVertically(),
+                    //exit = shrinkVertically(animationSpec = tween(durationMillis = 200))
+                ) {*/
+                    val checkedState = remember { mutableStateOf(item.isComplete) }
+                    Card(
+                        modifier = Modifier
+                            .padding(horizontal = 8.dp, vertical = 8.dp)
+                            .fillMaxWidth(),
+                        shape = RoundedCornerShape(corner = CornerSize(8.dp))
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Column(
+                                modifier = Modifier.weight(1.0F)
+                            ) {
 
-            Text(text = data.subject,
-                style = typography.labelLarge,
-                modifier = Modifier.padding(5.dp))
-            Text(
-                text = data.task,
-                style = typography.titleSmall,
-                modifier = Modifier.padding(5.dp)
-            )
+                                Text(
+                                    text = item.subject,
+                                    style = typography.labelLarge,
+                                    modifier = Modifier.padding(5.dp)
+                                )
+                                Text(
+                                    text = item.task,
+                                    style = typography.titleSmall,
+                                    modifier = Modifier.padding(5.dp)
+                                )
 
-            Text(
-                text = data.date,
-                style = typography.titleSmall,
-                modifier = Modifier.padding(5.dp)
-            )
-        }
-            Checkbox(
-                checked = checkedState.value,
-                modifier = Modifier.padding(5.dp).weight(0.3F),
-                onCheckedChange = {
-                    data.isComplete = !data.isComplete
-                    checkedState.value = it
-                })
-
-        }
+                                Text(
+                                    text = item.date,
+                                    style = typography.titleSmall,
+                                    modifier = Modifier.padding(5.dp)
+                                )
+                            }
+                            Checkbox(
+                                checked = checkedState.value,
+                                modifier = Modifier
+                                    .padding(5.dp)
+                                    .weight(0.3F),
+                                onCheckedChange = {
+                                    item.isComplete = !item.isComplete
+                                    completedTasks.add(item)
+                                    tasks.remove(item)
+                                    checkedState.value = it
+                                })
+                        }
+                    }
+               // }
+            }
+        )
     }
 }
