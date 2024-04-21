@@ -9,8 +9,14 @@ import java.util.Date
 @Entity
 @Serializable
 data class Panel(
-    @PrimaryKey val subject: String,
-    @ColumnInfo val task: String,
-    @ColumnInfo val date: String,
-    @ColumnInfo var isComplete: Boolean
+    @PrimaryKey
+    val id:Long,
+    @ColumnInfo
+    val subject: String,
+    @ColumnInfo
+    val task: String,
+    @ColumnInfo
+    val date: String,
+    @ColumnInfo
+    var isComplete: Boolean
 )

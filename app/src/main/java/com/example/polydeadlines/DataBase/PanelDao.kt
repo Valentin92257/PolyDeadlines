@@ -4,7 +4,9 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.example.polydeadlines.Model.Panel
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PanelDao {
@@ -12,8 +14,11 @@ interface PanelDao {
     fun getAll(): List<Panel>
 
     @Insert
-    fun insertAll(vararg panels: Panel)
+    suspend fun insert(panel: Panel)
 
     @Delete
-    fun delete(panel: Panel)
+    suspend fun delete(panel: Panel)
+
+    @Update
+    suspend fun update(panel: Panel)
 }

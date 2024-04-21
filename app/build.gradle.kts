@@ -73,15 +73,12 @@ dependencies {
 
     implementation(libs.kotlinx.serialization.json)
 
-
     implementation(libs.hilt.android)
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     kapt(libs.hilt.android.compiler)
 
     //room dependency
     implementation(libs.androidx.room.runtime)
     kapt(libs.androidx.room.compiler)
-
-
-
-
+    implementation("androidx.room:room-ktx:2.6.1")
 }
