@@ -2,8 +2,10 @@ package com.example.polydeadlines.DataBase
 
 import com.example.polydeadlines.Model.Panel
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class OfflineRepository(private val panelDao: PanelDao) : PanelsRepository {
+
+class OfflineRepository @Inject constructor(private val panelDao: PanelDao) : PanelsRepository {
     override fun getAllPanels(): List<Panel> = panelDao.getAll()
 
     override suspend fun insertPanel(panel: Panel) = panelDao.insert(panel)

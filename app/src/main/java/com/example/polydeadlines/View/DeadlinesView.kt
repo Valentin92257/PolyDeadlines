@@ -1,5 +1,6 @@
 package com.example.polydeadlines.View
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,8 +32,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.polydeadlines.Model.Panel
 import com.example.polydeadlines.Model.toTargetDateFormat
+import com.example.polydeadlines.ViewModel.DeadlinesViewModel
+import javax.inject.Inject
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -187,9 +191,8 @@ var tasks = mutableListOf(
 )
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Deadlines() {
+fun Deadlines(viewModel: DeadlinesViewModel = hiltViewModel()) {
     var isExpanded = remember { mutableStateOf(false) }
     var openDialog by remember { mutableStateOf(false) }
     Scaffold(
