@@ -7,16 +7,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -42,10 +37,10 @@ import com.example.polydeadlines.Model.toTargetDateFormat
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Auth(onDismis: ()->Unit) {
+fun Auth(onDismis: () -> Unit) {
     var mail by remember { mutableStateOf("") }
     BasicAlertDialog(
-        onDismissRequest =onDismis,
+        onDismissRequest = onDismis,
     ) {
         Column(Modifier.background(Color.White, MaterialTheme.shapes.medium)) {
             Text(
@@ -70,14 +65,16 @@ fun Auth(onDismis: ()->Unit) {
                 Button(
                     modifier = Modifier
                         .weight(1.0F),
-                    onClick = onDismis) {
+                    onClick = onDismis
+                ) {
                     Text("Отмена")
                 }
                 Spacer(modifier = Modifier.width(5.dp))
                 Button(
                     modifier = Modifier
                         .weight(1.0F),
-                    onClick = onDismis) {
+                    onClick = onDismis
+                ) {
                     Text("Ок")
                 }
             }
@@ -130,7 +127,7 @@ fun DropDownMenu(isExpanded: MutableState<Boolean>) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(isExpanded: MutableState<Boolean>, onClick: () -> Unit){
+fun TopBar(isExpanded: MutableState<Boolean>, onClick: () -> Unit) {
 
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
@@ -142,38 +139,53 @@ fun TopBar(isExpanded: MutableState<Boolean>, onClick: () -> Unit){
         },
         actions = {
             //DropDownMenu(isExpanded)
-            IconButton(onClick = onClick){
-            Icon(
-                imageVector = Icons.Filled.AccountCircle,
-                contentDescription = "Log in"
-            )
-        }
+            IconButton(onClick = onClick) {
+                Icon(
+                    imageVector = Icons.Filled.AccountCircle,
+                    contentDescription = "Log in"
+                )
+            }
         }
     )
 }
-var tasks = listOf(Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
-    Panel("mat123h","Some task", toTargetDateFormat("20240418T210000Z"),false),
-    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
-    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
-    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
-    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
-    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
-    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
-    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
-    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
-    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
-    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
-    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
-    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
-    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
-    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
-    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
-    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
-    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
-    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
-    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
-    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false)
-    )
+
+var tasks = mutableListOf(
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false)
+)
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -181,20 +193,14 @@ fun Deadlines() {
     var isExpanded = remember { mutableStateOf(false) }
     var openDialog by remember { mutableStateOf(false) }
     Scaffold(
-        topBar = {TopBar(isExpanded) { openDialog = true } },
-    ) {
-        innerPadding->
-       // var test = Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false)
-        //DeadLineCard(test,Modifier.padding(innerPadding))
-        LazyColumn(Modifier.padding(innerPadding)) {
-            items(tasks){ task -> if(!task.isComplete) DeadLineCard(task)}
-        }
+        topBar = { TopBar(isExpanded) { openDialog = true } },
+    ) { innerPadding ->
+        DeadLineColumn(modifier = Modifier.padding(innerPadding))
     }
 
-    if(openDialog)
+    if (openDialog)
         Auth { openDialog = false }
 }
-
 
 
 /*
