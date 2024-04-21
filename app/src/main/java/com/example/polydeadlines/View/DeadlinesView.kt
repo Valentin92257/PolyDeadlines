@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.BasicAlertDialog
@@ -99,6 +101,29 @@ fun TopBar(onClick: () -> Unit){
         }
     )
 }
+var tasks = listOf(Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
+    Panel("mat123h","Some task", toTargetDateFormat("20240418T210000Z"),false),
+    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
+    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
+    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
+    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
+    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
+    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
+    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
+    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
+    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
+    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
+    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
+    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
+    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
+    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
+    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
+    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
+    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
+    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
+    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false),
+    Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false)
+    )
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -108,13 +133,18 @@ fun Deadlines() {
         topBar = {TopBar({openDialog.value = true})},
     ) {
         innerPadding->
-        var test = Panel("math","asdfkjalsjdfas", toTargetDateFormat("20240418T210000Z"),false)
-        DeadLineCard(test,Modifier.padding(innerPadding))
+       // var test = Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false)
+        //DeadLineCard(test,Modifier.padding(innerPadding))
+        LazyColumn(Modifier.padding(innerPadding)) {
+            items(tasks){ task -> if(!task.isComplete) DeadLineCard(task)}
+        }
     }
 
     if(openDialog.value)
         Auth { openDialog.value = false }
 }
+
+
 
 /*
 @Composable

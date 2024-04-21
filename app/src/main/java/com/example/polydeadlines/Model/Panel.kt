@@ -5,6 +5,6 @@ import java.util.Date
 data class Panel(
     val subject: String,
     val task: String,
-    val date: Date,
-    var isComplete: Boolean
+    val date: String,
+    var isComplete: Boolean = false
 )
