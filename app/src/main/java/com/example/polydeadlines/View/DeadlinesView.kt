@@ -13,7 +13,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -23,8 +26,11 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
@@ -37,7 +43,7 @@ import com.example.polydeadlines.Model.toTargetDateFormat
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Auth(onDismis: ()->Unit) {
-    val mail = remember { mutableStateOf("") }
+    var mail by remember { mutableStateOf("") }
     BasicAlertDialog(
         onDismissRequest =onDismis,
     ) {
@@ -52,8 +58,8 @@ fun Auth(onDismis: ()->Unit) {
                 textAlign = TextAlign.Center
             )
             TextField(
-                value = mail.value,
-                onValueChange = { newText -> mail.value = newText },
+                value = mail,
+                onValueChange = { newText -> mail = newText },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 10.dp),
@@ -80,24 +86,68 @@ fun Auth(onDismis: ()->Unit) {
     }
 }
 
+/*@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DropDownMenu(isExpanded: MutableState<Boolean>) {
+    //var isExpanded = remember { mutableStateOf(false) }
+    var chapter by remember { mutableStateOf("111111") }
+    ExposedDropdownMenuBox(
+        expanded = isExpanded.value,
+        onExpandedChange = {isExpanded.value=!isExpanded.value}
+    ) {
+        TextField(
+            readOnly = true,
+            value = chapter,
+            onValueChange = { },
+            trailingIcon = {
+                ExposedDropdownMenuDefaults.TrailingIcon(
+                    expanded = isExpanded.value
+                )
+            },
+            colors = ExposedDropdownMenuDefaults.textFieldColors()
+        )
+        ExposedDropdownMenu(
+            expanded = isExpanded.value,
+            onDismissRequest = { isExpanded.value = false },
+        ) {
+            DropdownMenuItem(
+                text = { Text("11111") },
+                onClick = {
+                    chapter = "111111"
+                    isExpanded.value = false
+                }
+            )
+            DropdownMenuItem(
+                text = { Text("222222") },
+                onClick = {
+                    chapter = "222222"
+                    isExpanded.value = false
+                }
+            )
+        }
+    }
+}*/
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(onClick: () -> Unit){
+fun TopBar(isExpanded: MutableState<Boolean>, onClick: () -> Unit){
+
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.Gray,
             titleContentColor = Color.Cyan,
         ),
         title = {
-            Text("Small Top App Bar")
+            //Text("Small Top App Bar")
         },
         actions = {
+            //DropDownMenu(isExpanded)
             IconButton(onClick = onClick){
-                Icon(
-                    imageVector = Icons.Filled.AccountCircle,
-                    contentDescription = "Log in"
-                )
-            }
+            Icon(
+                imageVector = Icons.Filled.AccountCircle,
+                contentDescription = "Log in"
+            )
+        }
         }
     )
 }
@@ -128,9 +178,10 @@ var tasks = listOf(Panel("math","Some task", toTargetDateFormat("20240418T210000
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Deadlines() {
-    val openDialog = remember { mutableStateOf(false) }
+    var isExpanded = remember { mutableStateOf(false) }
+    var openDialog by remember { mutableStateOf(false) }
     Scaffold(
-        topBar = {TopBar({openDialog.value = true})},
+        topBar = {TopBar(isExpanded) { openDialog = true } },
     ) {
         innerPadding->
        // var test = Panel("math","Some task", toTargetDateFormat("20240418T210000Z"),false)
@@ -140,8 +191,8 @@ fun Deadlines() {
         }
     }
 
-    if(openDialog.value)
-        Auth { openDialog.value = false }
+    if(openDialog)
+        Auth { openDialog = false }
 }
 
 
