@@ -8,6 +8,6 @@ import java.util.Date
 fun toTargetDateFormat(dateString: String): String {
     val currentFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'")
     val date = currentFormat.parse(dateString)
-    val targetFormat = SimpleDateFormat("'До' yyyy.MM.dd HH:mm")
+    val targetFormat = SimpleDateFormat("yyyy.MM.dd HH:mm")
     return targetFormat.format(date!!)
 }
