@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface PanelDao {
     @Query("SELECT * FROM panel")
-    fun getAll(): List<Panel>
+    suspend fun getAll(): List<Panel>
 
     @Insert
     suspend fun insert(panel: Panel)
