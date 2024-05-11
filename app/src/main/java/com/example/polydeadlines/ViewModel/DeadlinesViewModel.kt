@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.polydeadlines.DataBase.AppDatabase
 import com.example.polydeadlines.Model.Panel
+import com.example.polydeadlines.Model.toTargetDateFormat
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,11 +18,15 @@ import javax.inject.Inject
 class DeadlinesViewModel @Inject constructor( private val db: AppDatabase) : ViewModel() {
     private val tasks =mutableStateOf(emptyList<Panel>())
     private val dao = db.userDao()
-
+    var subjects: HashSet<String> = emptySet<String>().toHashSet()
+    val filter = mutableStateOf("")
     private fun loadDeadlines() {
         viewModelScope.launch() {
             tasks.value = dao.getAll()
         }
+            tasks.value.forEach{
+                    panel -> subjects.add(panel.subject)
+            }
     }
     init{
         loadDeadlines()
@@ -35,4 +40,10 @@ class DeadlinesViewModel @Inject constructor( private val db: AppDatabase) : Vie
             dao.update(panel)
         }
     }
+    fun reloadSubjects() {
+        tasks.value.forEach{
+                panel -> subjects.add(panel.subject)
+        }
+    }
+
 }

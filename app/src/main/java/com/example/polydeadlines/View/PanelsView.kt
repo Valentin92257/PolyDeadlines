@@ -39,14 +39,17 @@ import com.example.polydeadlines.ViewModel.DeadlinesViewModel
 fun DeadLineColumn(viewModel: DeadlinesViewModel, modifier: Modifier) {
     val completedTasks = remember { mutableStateListOf<Panel>() }
     val tasks =viewModel.getTasks().value
+
     LazyColumn(modifier) {
         itemsIndexed(
             items = tasks,
             itemContent = { _, item ->
                 AnimatedVisibility(
-                    visible = !completedTasks.contains(item)
+                    visible = (!completedTasks.contains(item) && item.subject == viewModel.filter.value)
+                            || (!completedTasks.contains(item) && "" == viewModel.filter.value)
                 ) {
                     DeadLineCard(item) {
+                        viewModel.reloadSubjects()
                         completedTasks.add(item)
                         viewModel.update(item)
                     }
@@ -127,4 +130,3 @@ fun DeadLineCard(item: Panel,onClick: () -> Unit ) {
             }
         }
     }
-}

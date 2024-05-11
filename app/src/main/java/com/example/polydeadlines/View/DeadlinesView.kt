@@ -11,8 +11,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -30,12 +33,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.polydeadlines.Model.Panel
 import com.example.polydeadlines.Model.toTargetDateFormat
+import com.example.polydeadlines.ViewModel.DataProvider
 import com.example.polydeadlines.ViewModel.DeadlinesViewModel
 import javax.inject.Inject
 import com.example.polydeadlines.ui.theme.Green40
@@ -91,51 +96,36 @@ fun Auth(onDismis: () -> Unit) {
     }
 }
 
-/*@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DropDownMenu(isExpanded: MutableState<Boolean>) {
-    //var isExpanded = remember { mutableStateOf(false) }
-    var chapter by remember { mutableStateOf("111111") }
-    ExposedDropdownMenuBox(
-        expanded = isExpanded.value,
-        onExpandedChange = {isExpanded.value=!isExpanded.value}
-    ) {
-        TextField(
-            readOnly = true,
-            value = chapter,
-            onValueChange = { },
-            trailingIcon = {
-                ExposedDropdownMenuDefaults.TrailingIcon(
-                    expanded = isExpanded.value
-                )
-            },
-            colors = ExposedDropdownMenuDefaults.textFieldColors()
-        )
-        ExposedDropdownMenu(
-            expanded = isExpanded.value,
-            onDismissRequest = { isExpanded.value = false },
-        ) {
-            DropdownMenuItem(
-                text = { Text("11111") },
-                onClick = {
-                    chapter = "111111"
-                    isExpanded.value = false
-                }
-            )
-            DropdownMenuItem(
-                text = { Text("222222") },
-                onClick = {
-                    chapter = "222222"
-                    isExpanded.value = false
-                }
+fun DropDownMenu(isExpanded: MutableState<Boolean>, subjects: HashSet<String>,viewModel: DeadlinesViewModel) {
+    val context = LocalContext.current
+    var expanded by remember { mutableStateOf(false) }
+
+
+        IconButton(onClick = { expanded = !expanded }) {
+            Icon(
+                imageVector = Icons.Default.ArrowDropDown,
+                contentDescription = "More"
             )
         }
-    }
-}*/
+
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            subjects.forEach { label ->
+                DropdownMenuItem(text = { Text(text = label) }, onClick = {
+                    viewModel.filter.value = label
+                })
+            }
+        }
+
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(isExpanded: MutableState<Boolean>, onClick: () -> Unit) {
+fun TopBar(isExpanded: MutableState<Boolean>, onClick: () -> Unit, subjects: HashSet<String>,viewModel: DeadlinesViewModel) {
 
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
@@ -149,7 +139,10 @@ fun TopBar(isExpanded: MutableState<Boolean>, onClick: () -> Unit) {
             }//Попробовать черный
         ),
         title = {
-            //Text("Small Top App Bar")
+            Text("PolyDeadlines")
+        }, navigationIcon = {
+            DropDownMenu(isExpanded,subjects,viewModel)
+
         },
         actions = {
             //DropDownMenu(isExpanded)
@@ -206,10 +199,11 @@ fun TopBar(isExpanded: MutableState<Boolean>, onClick: () -> Unit) {
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun Deadlines(viewModel: DeadlinesViewModel = hiltViewModel()) {
-    var isExpanded = remember { mutableStateOf(false) }
+    val isExpanded = remember { mutableStateOf(false) }
     var openDialog by remember { mutableStateOf(false) }
+     val subjects = viewModel.subjects
     Scaffold(
-        topBar = { TopBar(isExpanded) { openDialog = true } },
+        topBar = { TopBar(isExpanded, { openDialog = true },subjects,viewModel)},
     ) { innerPadding ->
         DeadLineColumn(viewModel,modifier = Modifier.padding(innerPadding))
     }
@@ -217,4 +211,5 @@ fun Deadlines(viewModel: DeadlinesViewModel = hiltViewModel()) {
     if (openDialog)
         Auth { openDialog = false }
 }
+
 
