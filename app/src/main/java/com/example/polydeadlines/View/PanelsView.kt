@@ -20,14 +20,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.polydeadlines.Model.Panel
 
 
 @Composable
 fun DeadLineColumn(modifier: Modifier) {
-    var completedTasks = remember { mutableStateListOf<Panel>() }
-
+    val completedTasks = remember { mutableStateListOf<Panel>() }
     LazyColumn(modifier) {
         itemsIndexed(
             items = tasks,
@@ -62,30 +64,35 @@ fun DeadLineCard(item: Panel, completedTasks: SnapshotStateList<Panel>) {
                 Text(
                     text = item.subject,
                     style = typography.labelLarge,
-                    modifier = Modifier.padding(5.dp)
+                    modifier = Modifier.padding(7.dp),
+                    fontWeight = FontWeight(300),
+                    fontSize = 5.sp
                 )
                 Text(
                     text = item.task,
                     style = typography.titleSmall,
-                    modifier = Modifier.padding(5.dp)
+                    modifier = Modifier.padding(7.dp)
                 )
 
+            }
+            Column(
+                modifier = Modifier.weight(0.3F)
+            ) {
+                Checkbox(
+                    checked = checkedState.value,
+                    modifier = Modifier
+                        .padding(7.dp),
+                    onCheckedChange = {
+                        item.isComplete = !item.isComplete
+                        completedTasks.add(item)
+                        checkedState.value = it
+                    })
                 Text(
                     text = item.date,
                     style = typography.titleSmall,
-                    modifier = Modifier.padding(5.dp)
+                    modifier = Modifier.padding(7.dp)
                 )
             }
-            Checkbox(
-                checked = checkedState.value,
-                modifier = Modifier
-                    .padding(5.dp)
-                    .weight(0.3F),
-                onCheckedChange = {
-                    item.isComplete = !item.isComplete
-                    completedTasks.add(item)
-                    checkedState.value = it
-                })
         }
     }
 }

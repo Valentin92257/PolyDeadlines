@@ -1,6 +1,7 @@
 package com.example.polydeadlines.View
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -33,6 +34,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.polydeadlines.Model.Panel
 import com.example.polydeadlines.Model.toTargetDateFormat
+import com.example.polydeadlines.ui.theme.Green40
+import com.example.polydeadlines.ui.theme.Green80
+import com.example.polydeadlines.ui.theme.Grey40
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -131,18 +135,27 @@ fun TopBar(isExpanded: MutableState<Boolean>, onClick: () -> Unit) {
 
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color.Gray,
-            titleContentColor = Color.Cyan,
+            containerColor = when {
+                isSystemInDarkTheme() -> Grey40
+                else -> Color.White
+            },
+            titleContentColor = when{
+                isSystemInDarkTheme() -> Color.White
+                else -> Color.Black
+            }//Попробовать черный
         ),
         title = {
             //Text("Small Top App Bar")
         },
         actions = {
             //DropDownMenu(isExpanded)
-            IconButton(onClick = onClick) {
+            IconButton(
+                onClick = onClick,
+            ) {
                 Icon(
                     imageVector = Icons.Filled.AccountCircle,
-                    contentDescription = "Log in"
+                    contentDescription = "Log in",
+                    tint = Green80
                 )
             }
         }
@@ -150,46 +163,46 @@ fun TopBar(isExpanded: MutableState<Boolean>, onClick: () -> Unit) {
 }
 
 var tasks = mutableListOf(
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false)
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false)
 )
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Deadlines() {
+fun DeadLines() {
     var isExpanded = remember { mutableStateOf(false) }
     var openDialog by remember { mutableStateOf(false) }
     Scaffold(

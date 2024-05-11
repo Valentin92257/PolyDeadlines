@@ -2,10 +2,12 @@ package com.example.polydeadlines.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+val Green80 = Color(0xFF37B34A)
+val GreenGrey80 = Color(0xFFA7D3AE)
+val Turquoise80 = Color(0xFF8DF3C7)
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+val Green40 = Color(0xFF4E9C5A)
+val GreenGrey40 = Color(0xFF324635)
+val Turquoise40 = Color(0xFF52695F)
+
+val Grey40 =Color(0xF02E2E2E)
