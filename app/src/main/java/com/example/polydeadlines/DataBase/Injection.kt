@@ -1,4 +1,5 @@
 package com.example.polydeadlines.DataBase
+import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import dagger.Module
@@ -13,9 +14,9 @@ import javax.inject.Singleton
 object AppModule {
     @Provides
     @Singleton
-    fun provideAppDatabase(@ApplicationContext appContext: Context): AppDatabase {
+    fun provideAppDatabase(app: Application): AppDatabase {
         return Room.databaseBuilder(
-            appContext,
+            app,
             AppDatabase::class.java,
             "room_database"
         ).build()
@@ -25,9 +26,6 @@ object AppModule {
     fun provideDao(appDatabase: AppDatabase) : PanelDao{
         return appDatabase.userDao()
     }
-    @Provides
-    @Singleton
-    fun provideTaskRepository(panelDao: PanelDao): OfflineRepository {
-        return OfflineRepository(panelDao)
-    }
+
 }
+

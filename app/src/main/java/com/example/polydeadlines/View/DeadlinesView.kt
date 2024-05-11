@@ -190,7 +190,7 @@ var tasks = mutableListOf(
     Panel("1","math", "Some task", toTargetDateFormat("20240418T210000Z"), false)
 )
 
-
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun Deadlines(viewModel: DeadlinesViewModel = hiltViewModel()) {
     var isExpanded = remember { mutableStateOf(false) }

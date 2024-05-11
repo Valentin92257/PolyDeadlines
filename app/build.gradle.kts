@@ -5,6 +5,7 @@ plugins {
     id("com.google.dagger.hilt.android")
 
     kotlin("plugin.serialization")
+
 }
 
 android {
@@ -22,6 +23,14 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments["room.incremental"] = "true"
+            }
+        }
+
+
     }
 
     buildTypes {
@@ -51,6 +60,9 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+
+
 }
 
 dependencies {
@@ -73,12 +85,15 @@ dependencies {
 
     implementation(libs.kotlinx.serialization.json)
 
-    implementation(libs.hilt.android)
-    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
-    kapt(libs.hilt.android.compiler)
+//    implementation(libs.hilt.android)
+  implementation(libs.androidx.hilt.navigation.compose)
+//    kapt(libs.hilt.android.compiler)
 
     //room dependency
     implementation(libs.androidx.room.runtime)
     kapt(libs.androidx.room.compiler)
-    implementation("androidx.room:room-ktx:2.6.1")
+    implementation(libs.androidx.room.ktx)
+
+    implementation("com.google.dagger:hilt-android:2.48")
+    kapt("com.google.dagger:hilt-android-compiler:2.48")
 }
