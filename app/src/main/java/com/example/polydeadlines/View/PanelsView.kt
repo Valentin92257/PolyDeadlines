@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,20 +32,24 @@ import com.example.polydeadlines.Model.Panel
 import com.example.polydeadlines.ui.theme.Green40
 import com.example.polydeadlines.ui.theme.Green80
 import com.example.polydeadlines.ui.theme.Grey40
+import com.example.polydeadlines.ViewModel.DeadlinesViewModel
 
 
 @Composable
-fun DeadLineColumn(modifier: Modifier) {
+fun DeadLineColumn(viewModel: DeadlinesViewModel, modifier: Modifier) {
     val completedTasks = remember { mutableStateListOf<Panel>() }
+    val tasks =viewModel.getTasks().value
     LazyColumn(modifier) {
         itemsIndexed(
             items = tasks,
             itemContent = { _, item ->
                 AnimatedVisibility(
-                    visible = !completedTasks.contains(item),
-                    //exit = fadeOut()      TODO
+                    visible = !completedTasks.contains(item)
                 ) {
-                    DeadLineCard(item, completedTasks)
+                    DeadLineCard(item) {
+                        completedTasks.add(item)
+                        viewModel.update(item)
+                    }
                 }
             }
         )
@@ -53,7 +58,7 @@ fun DeadLineColumn(modifier: Modifier) {
 
 
 @Composable
-fun DeadLineCard(item: Panel, completedTasks: SnapshotStateList<Panel>) {
+fun DeadLineCard(item: Panel,onClick: () -> Unit ) {
     val checkedState = remember { mutableStateOf(item.isComplete) }
     Card(
 
@@ -114,11 +119,12 @@ fun DeadLineCard(item: Panel, completedTasks: SnapshotStateList<Panel>) {
                     .weight(0.2F),
                 onCheckedChange = {
                     item.isComplete = !item.isComplete
-                    completedTasks.add(item)
                     checkedState.value = it
+                    onClick()
                 },
 
                 )
+            }
         }
     }
 }

@@ -1,7 +1,10 @@
 package com.example.polydeadlines.ViewModel
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.polydeadlines.DataBase.AppDatabase
@@ -11,16 +14,25 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DeadlinesViewModel @Inject constructor( private val repository: AppDatabase) : ViewModel() {
-    private val _panels = mutableStateOf<List<Panel>>(emptyList())
-    val tasks: State<List<Panel>> = _panels
+class DeadlinesViewModel @Inject constructor( private val db: AppDatabase) : ViewModel() {
+    private val tasks =mutableStateOf(emptyList<Panel>())
+    private val dao = db.userDao()
 
+    private fun loadDeadlines() {
+        viewModelScope.launch() {
+            tasks.value = dao.getAll()
+        }
+    }
     init{
         loadDeadlines()
     }
-    private fun loadDeadlines() {
+
+    fun getTasks(): MutableState<List<Panel>> {
+        return tasks
+    }
+    fun update(panel: Panel){
         viewModelScope.launch() {
-            _panels.value = repository.userDao().getAll()
+            dao.update(panel)
         }
     }
 }

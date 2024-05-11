@@ -166,21 +166,21 @@ fun TopBar(isExpanded: MutableState<Boolean>, onClick: () -> Unit) {
     )
 }
 
-var tasks = mutableListOf(
-    Panel("1", "Math", "1Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("2", "Math", "2Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("3", "Math", "3Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("4", "Math", "4Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("5", "math", "5Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("6", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("7", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("8", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("9", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("10", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("11", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("12", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("13", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
-    Panel("14", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+/*var tasks = mutableListOf(
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
+    Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
     Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
     Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
     Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
@@ -201,7 +201,7 @@ var tasks = mutableListOf(
     Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
     Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
     Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false)
-)
+)*/
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -211,49 +211,10 @@ fun Deadlines(viewModel: DeadlinesViewModel = hiltViewModel()) {
     Scaffold(
         topBar = { TopBar(isExpanded) { openDialog = true } },
     ) { innerPadding ->
-        DeadLineColumn(modifier = Modifier.padding(innerPadding))
+        DeadLineColumn(viewModel,modifier = Modifier.padding(innerPadding))
     }
 
     if (openDialog)
         Auth { openDialog = false }
 }
 
-
-/*
-@Composable
-fun DeadLineCard(data: DeadLineData) {
-    val checkedState = remember { mutableStateOf(data.isActive) }
-    Card(
-        modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp).fillMaxWidth(),
-        shape = RoundedCornerShape(corner = CornerSize(8.dp))    ) {
-
-        Column {
-            Row(
-                modifier = Modifier.fillMaxSize()
-            ) {
-
-                Text(text = data.name, style = typography.labelLarge)
-                Checkbox(checked = checkedState.value, onCheckedChange = {
-                    data.isActive = !data.isActive
-                    checkedState.value = it
-                })
-            }
-            Row {
-                Text(
-                    text = data.date,
-                    style = typography.titleSmall,
-                    modifier = Modifier.padding(5.dp)
-                )
-
-                Text(
-                    text = data.time.toString(),
-                    style = typography.titleSmall,
-                    modifier = Modifier.padding(5.dp)
-                )
-
-            }
-
-
-        }
-    }
-}*/
