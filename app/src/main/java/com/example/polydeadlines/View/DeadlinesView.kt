@@ -1,5 +1,6 @@
 package com.example.polydeadlines.View
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
@@ -32,8 +33,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.polydeadlines.Model.Panel
 import com.example.polydeadlines.Model.toTargetDateFormat
+import com.example.polydeadlines.ViewModel.DeadlinesViewModel
+import javax.inject.Inject
 import com.example.polydeadlines.ui.theme.Green40
 import com.example.polydeadlines.ui.theme.Green80
 import com.example.polydeadlines.ui.theme.Grey40
@@ -199,10 +203,9 @@ var tasks = mutableListOf(
     Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false)
 )
 
-
-@OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun DeadLines() {
+fun Deadlines(viewModel: DeadlinesViewModel = hiltViewModel()) {
     var isExpanded = remember { mutableStateOf(false) }
     var openDialog by remember { mutableStateOf(false) }
     Scaffold(
