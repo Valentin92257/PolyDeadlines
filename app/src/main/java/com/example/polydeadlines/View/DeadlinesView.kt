@@ -166,7 +166,7 @@ fun TopBar(isExpanded: MutableState<Boolean>, onClick: () -> Unit) {
     )
 }
 
-var tasks = mutableListOf(
+/*var tasks = mutableListOf(
     Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
     Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
     Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
@@ -201,59 +201,21 @@ var tasks = mutableListOf(
     Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
     Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false),
     Panel("1", "math", "Some task", toTargetDateFormat("20240418T210000Z"), false)
-)
+)*/
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun Deadlines(viewModel: DeadlinesViewModel = hiltViewModel()) {
     var isExpanded = remember { mutableStateOf(false) }
     var openDialog by remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = { TopBar(isExpanded) { openDialog = true } },
     ) { innerPadding ->
-        DeadLineColumn(modifier = Modifier.padding(innerPadding))
+        DeadLineColumn(viewModel,modifier = Modifier.padding(innerPadding))
     }
 
     if (openDialog)
         Auth { openDialog = false }
 }
 
-
-/*
-@Composable
-fun DeadLineCard(data: DeadLineData) {
-    val checkedState = remember { mutableStateOf(data.isActive) }
-    Card(
-        modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp).fillMaxWidth(),
-        shape = RoundedCornerShape(corner = CornerSize(8.dp))    ) {
-
-        Column {
-            Row(
-                modifier = Modifier.fillMaxSize()
-            ) {
-
-                Text(text = data.name, style = typography.labelLarge)
-                Checkbox(checked = checkedState.value, onCheckedChange = {
-                    data.isActive = !data.isActive
-                    checkedState.value = it
-                })
-            }
-            Row {
-                Text(
-                    text = data.date,
-                    style = typography.titleSmall,
-                    modifier = Modifier.padding(5.dp)
-                )
-
-                Text(
-                    text = data.time.toString(),
-                    style = typography.titleSmall,
-                    modifier = Modifier.padding(5.dp)
-                )
-
-            }
-
-
-        }
-    }
-}*/
