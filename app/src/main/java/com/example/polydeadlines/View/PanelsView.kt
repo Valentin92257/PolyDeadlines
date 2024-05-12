@@ -14,45 +14,49 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.polydeadlines.Model.Panel
+import com.example.polydeadlines.R
 import com.example.polydeadlines.ui.theme.Green40
 import com.example.polydeadlines.ui.theme.Green80
 import com.example.polydeadlines.ui.theme.Grey40
-import com.example.polydeadlines.ViewModel.DeadlinesViewModel
 
 
 @Composable
-fun DeadLineColumn(viewModel: DeadlinesViewModel, modifier: Modifier) {
+fun DeadLineColumn( modifier: Modifier) {
     val completedTasks = remember { mutableStateListOf<Panel>() }
     val tasks =viewModel.getTasks().value
-
+    completedTasks.addAll(tasks.filter { it.isComplete })
+    viewModel.reloadSubjects()
     LazyColumn(modifier) {
         itemsIndexed(
             items = tasks,
             itemContent = { _, item ->
                 AnimatedVisibility(
-                    visible = (!completedTasks.contains(item) && item.subject == viewModel.filter.value)
-                            || (!completedTasks.contains(item) && "" == viewModel.filter.value)
+                    visible = (!completedTasks.contains(item) && item.subject == viewModel.getFilter().value)
+                            || (!completedTasks.contains(item) && (stringResource(R.string.all) == viewModel.getFilter().value))
+                            || (completedTasks.contains(item) && stringResource(R.string.Completed) == viewModel.getFilter().value)
                 ) {
-                    DeadLineCard(item) {
-                        viewModel.reloadSubjects()
-                        completedTasks.add(item)
-                        viewModel.update(item)
-                    }
+                     DeadLineCard(item) {
+                            viewModel.update(item)
+                         if(item.isComplete)
+                            completedTasks.add(item)
+                         else
+                             completedTasks.remove(item)
+                            viewModel.reloadSubjects()
+                        }
                 }
             }
         )
