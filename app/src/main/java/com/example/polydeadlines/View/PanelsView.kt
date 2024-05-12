@@ -1,5 +1,6 @@
 package com.example.polydeadlines.View
 
+import android.content.res.Resources
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -21,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,11 +35,14 @@ import com.example.polydeadlines.R
 import com.example.polydeadlines.ui.theme.md_theme_light_primary
 
 
+
 @Composable
 fun DeadLineColumn(modifier: Modifier) {
     val completedTasks = remember { mutableStateListOf<Panel>() }
     val tasks = viewModel.getTasks().value
     completedTasks.addAll(tasks.filter { it.isComplete })
+    val currTime = viewModel.getCurrentDate()
+
     viewModel.reloadSubjects()
 
     LazyColumn(modifier) {
@@ -45,9 +50,11 @@ fun DeadLineColumn(modifier: Modifier) {
             items = tasks,
             itemContent = { _, item ->
                 AnimatedVisibility(
-                    visible = (!completedTasks.contains(item) && item.subject == viewModel.getFilter().value)
-                            || (!completedTasks.contains(item) && (stringResource(R.string.all) == viewModel.getFilter().value))
-                            || (completedTasks.contains(item) && stringResource(R.string.Completed) == viewModel.getFilter().value)
+                    visible = (!completedTasks.contains(item) && item.subject == viewModel.getFilter().value && currTime<item.date)
+                            || (!completedTasks.contains(item) && (stringResource(R.string.all) == viewModel.getFilter().value)  && currTime<item.date)
+                            || (completedTasks.contains(item) && stringResource(R.string.Completed) == viewModel.getFilter().value )
+                            || (!completedTasks.contains(item) && currTime>item.date && viewModel.getFilter().value == stringResource(R.string.Missed )
+                                    )
                 ) {
 
                     DeadLineCard(item) {
@@ -98,7 +105,7 @@ fun DeadLineCard(item: Panel, onClick: () -> Unit) {
                     )
 
                     Text(
-                        text = item.date,
+                        text = viewModel.convertDate(item.date),
                         style = typography.titleSmall,
                         modifier = Modifier.padding(start = 5.dp),
                         fontSize = 20.sp
@@ -141,3 +148,4 @@ fun DeadLineCard(item: Panel, onClick: () -> Unit) {
         }
     }
 }
+

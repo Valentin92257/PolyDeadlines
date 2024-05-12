@@ -8,6 +8,8 @@ import com.example.polydeadlines.DataBase.AppDatabase
 import com.example.polydeadlines.Model.Panel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -43,10 +45,13 @@ class DeadlinesViewModel @Inject constructor( db: AppDatabase) : ViewModel() {
     fun reloadSubjects() {
         val tmpSubjects = sortedSetOf<String>()
         tasks.value.forEach{task -> if(!task.isComplete)tmpSubjects.add(task.subject) }
-        subjects.value=tmpSubjects.toMutableList() + listOf("Все","Выполненные")
+        subjects.value=tmpSubjects.toMutableList() + listOf("Прошедшие","Выполненные","Все")
 
     }
 
+    fun convertDate(mills: Long) =
+        SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.US).format(mills)
+    fun getCurrentDate()=System.currentTimeMillis()
     fun getSubjects() = subjects
 
     fun getFilter() = filter

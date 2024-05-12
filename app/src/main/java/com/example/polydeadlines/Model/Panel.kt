@@ -10,11 +10,9 @@ import java.util.Date
 @Entity
 @Serializable
 data class Panel(
-    val uid : String,
-    @SerialName("CATEGORIES") @ColumnInfo  val subject: String,
-    @SerialName("SUMMARY") @ColumnInfo val task: String,
-    @SerialName("DTEND") @ColumnInfo val date: String,
+    @PrimaryKey @SerialName("UID") val uid : String,
+    @SerialName("SUBJECT") @ColumnInfo  val subject: String,
+    @SerialName("TASK") @ColumnInfo val task: String,
+    @SerialName("DATE") @ColumnInfo val date: Long,
     @ColumnInfo var isComplete: Boolean = false
-){
-    @SerialName("UID") @PrimaryKey var id = Integer.parseInt(uid.filter { it.isDigit() })
-}
+)

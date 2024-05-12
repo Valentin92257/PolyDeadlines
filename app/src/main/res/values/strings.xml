@@ -2,5 +2,5 @@
     <string name="app_name">PolyDeadlines</string>
     <string name="all">Все</string>
     <string name="Completed">Выполненные</string>
-
+    <string name="Missed">Прошедшие</string>
 </resources>

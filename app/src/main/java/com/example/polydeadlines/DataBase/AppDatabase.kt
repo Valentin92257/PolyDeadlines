@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.polydeadlines.Model.Panel
 
-@Database(entities = [Panel::class], version = 2)
+@Database(entities = [Panel::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun userDao(): PanelDao

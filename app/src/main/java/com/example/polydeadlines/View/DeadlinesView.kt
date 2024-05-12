@@ -30,6 +30,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.key.Key.Companion.Calendar
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -38,6 +39,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.polydeadlines.R
 import com.example.polydeadlines.ViewModel.DeadlinesViewModel
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 lateinit var viewModel: DeadlinesViewModel
@@ -164,6 +167,10 @@ fun TopBar(onClick: () -> Unit) {
 @Composable
 fun Deadlines(createdViewModel: DeadlinesViewModel = hiltViewModel()) {
     viewModel = createdViewModel
+    // 3ч =10800
+    /*val a = System.currentTimeMillis()//текущее время в секундах в часовом поясе +3
+    val targetFormat = SimpleDateFormat("yyyy.MM.dd HH:mm", Locale.US)
+    val f= targetFormat.format(a)*/
     //for example on physical devices without moodle
     /*viewModel.insert(com.example.polydeadlines.Model.Panel("1", "Английский", "1Some task", "2024.04.18 21:00", false))
     viewModel.insert(com.example.polydeadlines.Model.Panel("2", "Английский", "2Some task", "2024.04.18 21:00", false))

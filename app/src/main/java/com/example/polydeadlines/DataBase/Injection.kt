@@ -18,7 +18,7 @@ object AppModule {
         return Room.databaseBuilder(
             app,
             AppDatabase::class.java,
-            "room_database"
+            "Deadlines_database"
         ).build()
     }
     @Provides
