@@ -28,6 +28,13 @@ class DeadlinesViewModel @Inject constructor( db: AppDatabase) : ViewModel() {
     fun getTasks(): MutableState<List<Panel>> {
         return tasks
     }
+
+    fun insert(panel: Panel){
+        viewModelScope.launch() {
+            dao.insert(panel)
+        }
+    }
+
     fun update(panel: Panel){
         viewModelScope.launch() {
             dao.update(panel)

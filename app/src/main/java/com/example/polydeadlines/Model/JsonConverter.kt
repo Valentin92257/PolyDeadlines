@@ -1,8 +1,7 @@
-package com.example.polydeadlines.ViewModel
+package com.example.polydeadlines.Model
 
-import com.example.polydeadlines.Model.Panel
 import kotlinx.serialization.json.Json.Default.decodeFromString
-class DataProvider {
+class JsonConverter {
 
     fun getDeadlineFromJSON(json: String) : List<Panel> = decodeFromString<List<Panel>>(json)
     fun filteredDeadlineList(deadlineList: List<Panel>, subject: String): List<Panel> =

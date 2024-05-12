@@ -139,7 +139,6 @@ fun TopBar(onClick: () -> Unit) {
     }
     TopAppBar(
         title = {
-
             Text(topBatText)
         }, navigationIcon = {
             DropDownMenu()
@@ -165,6 +164,14 @@ fun TopBar(onClick: () -> Unit) {
 @Composable
 fun Deadlines(createdViewModel: DeadlinesViewModel = hiltViewModel()) {
     viewModel = createdViewModel
+    //for example on physical devices without moodle
+    /*viewModel.insert(com.example.polydeadlines.Model.Panel("1", "Английский", "1Some task", "2024.04.18 21:00", false))
+    viewModel.insert(com.example.polydeadlines.Model.Panel("2", "Английский", "2Some task", "2024.04.18 21:00", false))
+    viewModel.insert(com.example.polydeadlines.Model.Panel("3", "Английский", "Какое то задание непонятно зачем не нужно это делать", "2024.04.18 21:00", false))
+    viewModel.insert(com.example.polydeadlines.Model.Panel("4", "Высшая математика Солева Антонина", "Какое то задание непонятно зачем не нужно это делать", "2024.04.18 21:00", false))
+    viewModel.insert(com.example.polydeadlines.Model.Panel("5", "Высшая математика Солева Антонина", "2Some task", "2024.04.18 21:00", false))
+    viewModel.insert(com.example.polydeadlines.Model.Panel("6", "География", "1Some task", "2024.04.18 21:00", false))
+*/
     var openDialog by remember { mutableStateOf(false) }
     Scaffold(
         topBar = { TopBar { openDialog = true } },

@@ -109,7 +109,8 @@ fun DeadLineCard(item: Panel, onClick: () -> Unit) {
                     text = item.subject,
                     style = typography.labelLarge,
                     fontWeight = FontWeight(1000),
-                    fontSize = 30.sp
+                    fontSize = 30.sp,
+                    lineHeight = 30.sp
                 )
 
                 Text(
