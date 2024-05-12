@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,17 +30,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.polydeadlines.Model.Panel
 import com.example.polydeadlines.R
-import com.example.polydeadlines.ui.theme.Green40
-import com.example.polydeadlines.ui.theme.Green80
-import com.example.polydeadlines.ui.theme.Grey40
+import com.example.polydeadlines.ui.theme.md_theme_light_primary
 
 
 @Composable
-fun DeadLineColumn( modifier: Modifier) {
+fun DeadLineColumn(modifier: Modifier) {
     val completedTasks = remember { mutableStateListOf<Panel>() }
-    val tasks =viewModel.getTasks().value
+    val tasks = viewModel.getTasks().value
     completedTasks.addAll(tasks.filter { it.isComplete })
     viewModel.reloadSubjects()
+
     LazyColumn(modifier) {
         itemsIndexed(
             items = tasks,
@@ -49,14 +49,20 @@ fun DeadLineColumn( modifier: Modifier) {
                             || (!completedTasks.contains(item) && (stringResource(R.string.all) == viewModel.getFilter().value))
                             || (completedTasks.contains(item) && stringResource(R.string.Completed) == viewModel.getFilter().value)
                 ) {
-                     DeadLineCard(item) {
-                            viewModel.update(item)
-                         if(item.isComplete)
+
+                    DeadLineCard(item) {
+                        completedTasks.add(item)
+                        viewModel.update(item)
+                    }
+
+                    DeadLineCard(item) {
+                        viewModel.update(item)
+                        if (item.isComplete)
                             completedTasks.add(item)
-                         else
-                             completedTasks.remove(item)
-                            viewModel.reloadSubjects()
-                        }
+                        else
+                            completedTasks.remove(item)
+                        viewModel.reloadSubjects()
+                    }
                 }
             }
         )
@@ -65,7 +71,7 @@ fun DeadLineColumn( modifier: Modifier) {
 
 
 @Composable
-fun DeadLineCard(item: Panel,onClick: () -> Unit ) {
+fun DeadLineCard(item: Panel, onClick: () -> Unit) {
     val checkedState = remember { mutableStateOf(item.isComplete) }
     Card(
 
@@ -78,20 +84,23 @@ fun DeadLineCard(item: Panel,onClick: () -> Unit ) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
-                modifier = Modifier.weight(0.8f).padding(10.dp),
+                modifier = Modifier
+                    .weight(0.8f)
+                    .padding(10.dp),
             )
             {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Spacer(
-                        modifier = Modifier.width(3.dp)
+                        modifier = Modifier
+                            .width(3.dp)
                             .height(25.dp)
-                            .background(Green40)
+                            .background(md_theme_light_primary)
                     )
 
                     Text(
                         text = item.date,
                         style = typography.titleSmall,
-                        modifier = Modifier.padding(start=5.dp),
+                        modifier = Modifier.padding(start = 5.dp),
                         fontSize = 20.sp
                     )
                 }
@@ -113,12 +122,9 @@ fun DeadLineCard(item: Panel,onClick: () -> Unit ) {
 
             Checkbox(
                 colors = CheckboxDefaults.colors(
-                    checkedColor = Green80,
-                    uncheckedColor = Green40,
-                    checkmarkColor = Color.White,
-                    disabledCheckedColor = Green40,
-                    disabledUncheckedColor = Grey40,
-                    disabledIndeterminateColor = Grey40
+                    checkedColor = MaterialTheme.colorScheme.primary,
+                    uncheckedColor = MaterialTheme.colorScheme.primary,
+                    checkmarkColor = Color.White
                 ),
                 checked = checkedState.value,
                 modifier = Modifier
@@ -131,6 +137,6 @@ fun DeadLineCard(item: Panel,onClick: () -> Unit ) {
                 },
 
                 )
-            }
         }
     }
+}

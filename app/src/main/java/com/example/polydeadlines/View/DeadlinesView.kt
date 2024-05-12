@@ -2,7 +2,6 @@ package com.example.polydeadlines.View
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,14 +24,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -40,12 +38,10 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.polydeadlines.R
 import com.example.polydeadlines.ViewModel.DeadlinesViewModel
-import com.example.polydeadlines.ui.theme.Green80
-import com.example.polydeadlines.ui.theme.Grey40
-
 
 
 lateinit var viewModel: DeadlinesViewModel
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Auth(onDismis: () -> Unit) {
@@ -53,14 +49,19 @@ fun Auth(onDismis: () -> Unit) {
     BasicAlertDialog(
         onDismissRequest = onDismis,
     ) {
-        Column(Modifier.background(Color.White, MaterialTheme.shapes.medium)) {
+        Column(
+            Modifier.background(
+                MaterialTheme.colorScheme.surfaceVariant,
+                MaterialTheme.shapes.medium
+            )
+        ) {
             Text(
                 text = "Введите логин:",
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(10.dp),
-                color = Color.Black,
                 fontSize = 15.sp,
+                fontWeight = FontWeight(1000),
                 textAlign = TextAlign.Center
             )
             TextField(
@@ -78,7 +79,10 @@ fun Auth(onDismis: () -> Unit) {
                         .weight(1.0F),
                     onClick = onDismis
                 ) {
-                    Text("Отмена")
+                    Text(
+                        "Отмена",
+                        fontWeight = FontWeight(1000)
+                    )
                 }
                 Spacer(modifier = Modifier.width(5.dp))
                 Button(
@@ -86,10 +90,12 @@ fun Auth(onDismis: () -> Unit) {
                         .weight(1.0F),
                     onClick = onDismis
                 ) {
-                    Text("Ок")
+                    Text(
+                        "Ок",
+                        fontWeight = FontWeight(1000)
+                    )
                 }
             }
-
         }
     }
 }
@@ -98,51 +104,40 @@ fun Auth(onDismis: () -> Unit) {
 fun DropDownMenu() {
     var expanded by remember { mutableStateOf(false) }
     val subjects = viewModel.getSubjects().value
-    val icon = if(expanded){
+    val icon = if (expanded) {
         Icons.Default.KeyboardArrowUp
-    }else{
+    } else {
         Icons.Default.KeyboardArrowDown
     }
-        IconButton(onClick = { expanded = !expanded }) {
-            Icon(
-                imageVector = icon,
-                contentDescription = "More"
-            )
-        }
+    IconButton(onClick = { expanded = !expanded }) {
+        Icon(
+            imageVector = icon,
+            contentDescription = "More"
+        )
+    }
 
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
-            subjects.forEach { label ->
-                DropdownMenuItem(text = { Text(text = label) }, onClick = {
-                    viewModel.getFilter().value = label
-                    expanded = false
-                })
-            }
+    DropdownMenu(
+        expanded = expanded,
+        onDismissRequest = { expanded = false }
+    ) {
+        subjects.forEach { label ->
+            DropdownMenuItem(text = { Text(text = label) }, onClick = {
+                viewModel.getFilter().value = label
+                expanded = false
+            })
         }
-
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(onClick: () -> Unit) {
-    val topBatText = if(viewModel.getFilter().value == stringResource(R.string.all)){
+    val topBatText = if (viewModel.getFilter().value == stringResource(R.string.all)) {
         stringResource(R.string.app_name)
-    }else{
+    } else {
         viewModel.getFilter().value
     }
     TopAppBar(
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = when {
-                isSystemInDarkTheme() -> Grey40
-                else -> Color.White
-            },
-            titleContentColor = when{
-                isSystemInDarkTheme() -> Color.White
-                else -> Color.Black
-            }
-        ),
         title = {
 
             Text(topBatText)
@@ -151,13 +146,14 @@ fun TopBar(onClick: () -> Unit) {
 
         },
         actions = {
+
             IconButton(
                 onClick = onClick,
             ) {
                 Icon(
                     imageVector = Icons.Filled.AccountCircle,
                     contentDescription = "Log in",
-                    tint = Green80
+                    tint = MaterialTheme.colorScheme.primary
                 )
             }
         }
