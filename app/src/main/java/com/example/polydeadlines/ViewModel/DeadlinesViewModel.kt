@@ -18,13 +18,10 @@ class DeadlinesViewModel @Inject constructor( db: AppDatabase) : ViewModel() {
     private val dao = db.userDao()
     private var subjects=  mutableStateOf(emptyList<String>())
     private val filter = mutableStateOf("Все")
-    private fun loadDeadlines() {
+    init{
         viewModelScope.launch() {
             tasks.value = dao.getAll()
         }
-    }
-    init{
-        loadDeadlines()
     }
 
     fun getTasks(): MutableState<List<Panel>> {
@@ -34,6 +31,15 @@ class DeadlinesViewModel @Inject constructor( db: AppDatabase) : ViewModel() {
     fun insert(panel: Panel){
         viewModelScope.launch() {
             dao.insert(panel)
+            tasks.value = dao.getAll()
+        }
+    }
+
+    fun loadDeadlinesEmail(email : String){
+        viewModelScope.launch() {
+            //API запрос и сравнение с имеющимся списком (добавлять только те которых нет в tasks)
+            //dao.insert()
+            tasks.value = dao.getAll()
         }
     }
 

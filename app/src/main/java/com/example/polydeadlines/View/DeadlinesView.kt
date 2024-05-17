@@ -47,7 +47,7 @@ lateinit var viewModel: DeadlinesViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Auth(onDismis: () -> Unit) {
+fun Auth(onDismis: () -> Unit,onAccept: () -> Unit) {
     var mail by remember { mutableStateOf("") }
     BasicAlertDialog(
         onDismissRequest = onDismis,
@@ -91,7 +91,7 @@ fun Auth(onDismis: () -> Unit) {
                 Button(
                     modifier = Modifier
                         .weight(1.0F),
-                    onClick = onDismis
+                    onClick = onAccept
                 ) {
                     Text(
                         "Ок",
@@ -187,7 +187,28 @@ fun Deadlines(createdViewModel: DeadlinesViewModel = hiltViewModel()) {
     }
 
     if (openDialog)
-        Auth { openDialog = false }
+        Auth (onDismis={ openDialog = false },
+            onAccept= {
+                openDialog = false
+                viewModel.insert(
+                    com.example.polydeadlines.Model.Panel(
+                        "8",
+                        "Английский",
+                        "8Some task",
+                        1715708271000,
+                        false
+                    )
+                )
+                viewModel.insert(
+                    com.example.polydeadlines.Model.Panel(
+                        "9",
+                        "География",
+                        "9Some task",
+                        1715708271000,
+                        false
+                    )
+                )
+            })
 }
 
 
