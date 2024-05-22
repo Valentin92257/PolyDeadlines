@@ -30,7 +30,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.key.Key.Companion.Calendar
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -39,15 +38,13 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.polydeadlines.R
 import com.example.polydeadlines.ViewModel.DeadlinesViewModel
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 
 lateinit var viewModel: DeadlinesViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Auth(onDismis: () -> Unit,onAccept: () -> Unit) {
+fun Auth(onDismis: () -> Unit,onAccept: (email:String) -> Unit) {
     var mail by remember { mutableStateOf("") }
     BasicAlertDialog(
         onDismissRequest = onDismis,
@@ -59,7 +56,7 @@ fun Auth(onDismis: () -> Unit,onAccept: () -> Unit) {
             )
         ) {
             Text(
-                text = "Введите логин:",
+                text = "Введите корпоративную почту:",
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(10.dp),
@@ -91,7 +88,7 @@ fun Auth(onDismis: () -> Unit,onAccept: () -> Unit) {
                 Button(
                     modifier = Modifier
                         .weight(1.0F),
-                    onClick = onAccept
+                    onClick = { onAccept(mail) }
                 ) {
                     Text(
                         "Ок",
@@ -167,19 +164,8 @@ fun TopBar(onClick: () -> Unit) {
 @Composable
 fun Deadlines(createdViewModel: DeadlinesViewModel = hiltViewModel()) {
     viewModel = createdViewModel
-    // 3ч =10800
-    /*val a = System.currentTimeMillis()//текущее время в секундах в часовом поясе +3
-    val targetFormat = SimpleDateFormat("yyyy.MM.dd HH:mm", Locale.US)
-    val f= targetFormat.format(a)*/
-    //for example on physical devices without moodle
-    /*viewModel.insert(com.example.polydeadlines.Model.Panel("1", "Английский", "1Some task", "2024.04.18 21:00", false))
-    viewModel.insert(com.example.polydeadlines.Model.Panel("2", "Английский", "2Some task", "2024.04.18 21:00", false))
-    viewModel.insert(com.example.polydeadlines.Model.Panel("3", "Английский", "Какое то задание непонятно зачем не нужно это делать", "2024.04.18 21:00", false))
-    viewModel.insert(com.example.polydeadlines.Model.Panel("4", "Высшая математика Солева Антонина", "Какое то задание непонятно зачем не нужно это делать", "2024.04.18 21:00", false))
-    viewModel.insert(com.example.polydeadlines.Model.Panel("5", "Высшая математика Солева Антонина", "2Some task", "2024.04.18 21:00", false))
-    viewModel.insert(com.example.polydeadlines.Model.Panel("6", "География", "1Some task", "2024.04.18 21:00", false))
-*/
-    var openDialog by remember { mutableStateOf(false) }
+    val tasks = viewModel.getTasks()
+    var openDialog by remember { mutableStateOf(tasks.value.isEmpty()) }
     Scaffold(
         topBar = { TopBar { openDialog = true } },
     ) { innerPadding ->
@@ -187,27 +173,11 @@ fun Deadlines(createdViewModel: DeadlinesViewModel = hiltViewModel()) {
     }
 
     if (openDialog)
-        Auth (onDismis={ openDialog = false },
-            onAccept= {
+        Auth(
+            onDismis = { openDialog = false },
+            onAccept = {
+                viewModel.loadDeadlinesEmail(it)
                 openDialog = false
-                viewModel.insert(
-                    com.example.polydeadlines.Model.Panel(
-                        "8",
-                        "Английский",
-                        "8Some task",
-                        1715708271000,
-                        false
-                    )
-                )
-                viewModel.insert(
-                    com.example.polydeadlines.Model.Panel(
-                        "9",
-                        "География",
-                        "9Some task",
-                        1715708271000,
-                        false
-                    )
-                )
             })
 }
 

@@ -4,8 +4,6 @@ plugins {
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
 
-    kotlin("plugin.serialization")
-
 }
 
 android {
@@ -83,11 +81,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation(libs.kotlinx.serialization.json)
 
-//    implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
-//    kapt(libs.hilt.android.compiler)
 
     //room dependency
     implementation(libs.androidx.room.runtime)
@@ -96,4 +91,7 @@ dependencies {
 
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
+
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 }

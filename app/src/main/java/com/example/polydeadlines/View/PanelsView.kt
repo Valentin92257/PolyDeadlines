@@ -1,6 +1,5 @@
 package com.example.polydeadlines.View
 
-import android.content.res.Resources
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -22,7 +21,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -50,10 +48,10 @@ fun DeadLineColumn(modifier: Modifier) {
             items = tasks,
             itemContent = { _, item ->
                 AnimatedVisibility(
-                    visible = (!completedTasks.contains(item) && item.subject == viewModel.getFilter().value && currTime<item.date)
-                            || (!completedTasks.contains(item) && (stringResource(R.string.all) == viewModel.getFilter().value)  && currTime<item.date)
+                    visible = (!completedTasks.contains(item) && item.SUBJECT == viewModel.getFilter().value && currTime<item.DATE)
+                            || (!completedTasks.contains(item) && (stringResource(R.string.all) == viewModel.getFilter().value)  && currTime<item.DATE)
                             || (completedTasks.contains(item) && stringResource(R.string.Completed) == viewModel.getFilter().value )
-                            || (!completedTasks.contains(item) && currTime>item.date && viewModel.getFilter().value == stringResource(R.string.Missed )
+                            || (!completedTasks.contains(item) && currTime>item.DATE && viewModel.getFilter().value == stringResource(R.string.Missed )
                                     )
                 ) {
 
@@ -105,7 +103,7 @@ fun DeadLineCard(item: Panel, onClick: () -> Unit) {
                     )
 
                     Text(
-                        text = viewModel.convertDate(item.date),
+                        text = viewModel.convertDate(item.DATE),
                         style = typography.titleSmall,
                         modifier = Modifier.padding(start = 5.dp),
                         fontSize = 20.sp
@@ -113,7 +111,7 @@ fun DeadLineCard(item: Panel, onClick: () -> Unit) {
                 }
 
                 Text(
-                    text = item.subject,
+                    text = item.SUBJECT,
                     style = typography.labelLarge,
                     fontWeight = FontWeight(1000),
                     fontSize = 30.sp,
@@ -121,7 +119,7 @@ fun DeadLineCard(item: Panel, onClick: () -> Unit) {
                 )
 
                 Text(
-                    text = item.task,
+                    text = item.TASK,
                     style = typography.titleSmall,
                 )
 
