@@ -1,6 +1,7 @@
 package com.example.polydeadlines.View
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,6 +31,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -171,22 +173,27 @@ fun TopBar(onClick: () -> Unit) {
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun Deadlines(createdViewModel: DeadlinesViewModel = hiltViewModel()) {
+    val context = LocalContext.current
     viewModel = createdViewModel
     val tasks = viewModel.getTasks()
-    var openDialog by remember { mutableStateOf(tasks.value.isEmpty()) }
+
+    var isTasksEmpty by remember { mutableStateOf(false) }
+    var emailButtonClicked by remember { mutableStateOf(false) }
+    isTasksEmpty = tasks.value.isEmpty()
+
     Scaffold(
-        topBar = { TopBar { openDialog = true } },
+        topBar = { TopBar { emailButtonClicked = true } },
     ) { innerPadding ->
         DeadLineColumn(modifier = Modifier.padding(innerPadding))
     }
 
-    if (openDialog)
+    if (isTasksEmpty||emailButtonClicked)
         Auth(
-            onDismis = { openDialog = false },
-            onAccept = {
-                viewModel.loadDeadlinesEmail(it)
-                openDialog = false
-            })
+            onDismis = { emailButtonClicked = false }
+        ) {
+            viewModel.loadDeadlinesEmail(it) { Toast.makeText(context, "Проблемы с доступом в Интернет", Toast.LENGTH_LONG).show() }
+            emailButtonClicked = false
+        }
 }
 
 
