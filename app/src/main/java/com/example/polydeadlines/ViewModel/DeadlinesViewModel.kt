@@ -40,7 +40,7 @@ class DeadlinesViewModel @Inject constructor( db: AppDatabase) : ViewModel() {
         CoroutineScope(Dispatchers.IO).launch {
 
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://opd.neprosto.host/")
+                .baseUrl("https://smuzlmaker.github.io/polyTest/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             val moodleApi = retrofit.create(MoodleApi::class.java)

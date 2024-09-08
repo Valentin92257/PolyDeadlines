@@ -5,6 +5,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface MoodleApi {
-    @GET("task_data")
+    @GET("data.json")
     suspend fun getDeadlines(@Query("email") email: String): List<Panel>
 }
