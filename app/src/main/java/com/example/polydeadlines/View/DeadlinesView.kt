@@ -45,6 +45,7 @@ lateinit var viewModel: DeadlinesViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Auth(onDismis: () -> Unit,onAccept: (email:String) -> Unit) {
+    var textLabel by remember { mutableStateOf("") }
     var mail by remember { mutableStateOf("") }
     BasicAlertDialog(
         onDismissRequest = onDismis,
@@ -67,6 +68,7 @@ fun Auth(onDismis: () -> Unit,onAccept: (email:String) -> Unit) {
             TextField(
                 value = mail,
                 onValueChange = { newText -> mail = newText },
+                label = { Text(textLabel)},
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 10.dp),
@@ -88,7 +90,13 @@ fun Auth(onDismis: () -> Unit,onAccept: (email:String) -> Unit) {
                 Button(
                     modifier = Modifier
                         .weight(1.0F),
-                    onClick = { onAccept(mail) }
+                    onClick = {
+                        if(mail.matches(Regex("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+\$")))
+                            onAccept(mail)
+                        else {
+                            textLabel = "Неверный формат"
+                        }
+                    }
                 ) {
                     Text(
                         "Ок",
